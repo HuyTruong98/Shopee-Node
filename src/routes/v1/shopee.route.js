@@ -5,6 +5,6 @@ const shopeeController = require('../../controllers/shopee.controller');
 
 const router = express.Router();
 
-router.route('/').post(shopeeController.getItemShopee);
+router.route('/:userId').post(auth('manageUsers'), shopeeController.getItemShopee);
 
 module.exports = router;

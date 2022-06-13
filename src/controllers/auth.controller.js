@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const httpStatus = require('http-status');
 const { CREATED } = require('http-status');
 const catchAsync = require('../utils/catchAsync');

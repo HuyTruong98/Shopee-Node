@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { ROLE_USER, ROLE_ADMIN } = require('../utils/contants');
+const { ROLE_USER } = require('../utils/contants');
 const { password, objectId } = require('./custom.validation');
 
 const createUser = {
@@ -7,7 +7,7 @@ const createUser = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    role: Joi.string().required().valid(ROLE_USER, ROLE_ADMIN),
+    role: Joi.string().required().valid(ROLE_USER),
   }),
 };
 
@@ -19,20 +19,22 @@ const getUser = {
 
 const updateUser = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    userId: Joi.required().custom(objectId).required(),
   }),
   body: Joi.object()
     .keys({
       email: Joi.string().email(),
       password: Joi.string().custom(password),
       name: Joi.string(),
+      role: Joi.string(),
+      picture: Joi.string(),
     })
     .min(1),
 };
 
 const deleteUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.string().custom(objectId).required(),
   }),
 };
 

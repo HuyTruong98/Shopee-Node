@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { dataPermited } = require('../utils/helpers');
 
 /**
  * Create a user
@@ -40,6 +41,11 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 const updateUserById = async (userId, updateBody) => {
+  const permiteds = ['name', 'picture', 'password'];
+  const data = dataPermited(updateBody, permiteds);
+  const newBody = {
+    ...data,
+  };
   const user = await getUserById(userId);
   if (!user) {
     throw new ApiError({ statusCode: httpStatus.NOT_FOUND });
@@ -47,7 +53,7 @@ const updateUserById = async (userId, updateBody) => {
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError({ statusCode: httpStatus.BAD_REQUEST, message: 'Email already taken' });
   }
-  Object.assign(user, updateBody);
+  Object.assign(user, newBody);
   await user.save();
   return user;
 };
