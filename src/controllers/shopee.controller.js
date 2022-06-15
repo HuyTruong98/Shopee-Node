@@ -18,7 +18,7 @@ const getItemShopee = catchAsync(async (req, res) => {
     rating_star: 0,
     totalShowInMonth: 0,
   };
-  if (response.items.length > 0 && response.items.length === 100)
+  if (response.items.length > 0 && response.items.length === 100) {
     response.items.forEach((item) => {
       if (item) {
         total.sold += item.item_basic.sold;
@@ -44,13 +44,15 @@ const getItemShopee = catchAsync(async (req, res) => {
         newRes.push(newItem);
       }
     });
-  return new ApiSusscess({
-    res,
-    data: {
-      data: newRes,
-      total,
-    },
-  });
+    return new ApiSusscess({
+      res,
+      data: {
+        data: newRes,
+        total,
+      },
+    });
+  }
+  return res;
 });
 
 module.exports = {
