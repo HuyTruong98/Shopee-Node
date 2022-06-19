@@ -16,8 +16,9 @@ const getItemShopee = catchAsync(async (req, res) => {
     liked_count: 0,
     cmt_count: 0,
     rating_star: 0,
-    totalShowInMonth: 0,
+    historical_sold: 0,
   };
+
   if (response.items.length > 0 && response.items.length === 100) {
     response.items.forEach((item) => {
       if (item) {
@@ -26,6 +27,7 @@ const getItemShopee = catchAsync(async (req, res) => {
         total.liked_count += item.item_basic.liked_count;
         total.cmt_count += item.item_basic.cmt_count;
         total.rating_star += item.item_basic.item_rating.rating_star;
+        total.historical_sold += item.item_basic.historical_sold;
         const newItem = {
           name: item.item_basic.name,
           discount: item.item_basic.discount,
@@ -38,8 +40,9 @@ const getItemShopee = catchAsync(async (req, res) => {
           ctime: item.item_basic.ctime,
           shopid: item.item_basic.shopid,
           itemid: item.item_basic.itemid,
-          price: item.item_basic.price,
+          price: item.item_basic.price / 100000,
           currency: item.item_basic.currency,
+          historical_sold: item.item_basic.historical_sold,
         };
         newRes.push(newItem);
       }
@@ -52,7 +55,7 @@ const getItemShopee = catchAsync(async (req, res) => {
       },
     });
   }
-  return res;
+  return response;
 });
 
 module.exports = {
