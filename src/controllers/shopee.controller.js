@@ -19,7 +19,7 @@ const getItemShopee = catchAsync(async (req, res) => {
     historical_sold: 0,
   };
 
-  if (response.items.length > 0 && response.items.length === 100) {
+  if (response.items.length > 0) {
     response.items.forEach((item) => {
       if (item) {
         total.sold += item.item_basic.sold;
